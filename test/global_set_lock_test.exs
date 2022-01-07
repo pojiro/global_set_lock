@@ -26,7 +26,7 @@ defmodule GlobalSetLockTest do
       assert false == GlobalSetLock.lock(self())
     end
 
-    test "return :ok after unlock/1", %{other_pid: other_pid} do
+    test "return true after unlock/1", %{other_pid: other_pid} do
       true = GlobalSetLock.lock(other_pid)
       false = GlobalSetLock.lock(self())
 
