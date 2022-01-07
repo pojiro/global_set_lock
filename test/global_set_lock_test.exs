@@ -35,6 +35,23 @@ defmodule GlobalSetLockTest do
       # can lock again after unlock
       assert true == GlobalSetLock.lock(self())
     end
+
+    test "return true after locked process is gone" do
+      wait_msec = 5
+
+      Task.start_link(fn -> assert true == GlobalSetLock.lock(self()) end)
+
+      Process.sleep(wait_msec)
+
+      # can lock after locked process is gone
+      assert true == GlobalSetLock.lock(self())
+
+      Process.sleep(wait_msec)
+
+      Task.start_link(fn -> assert false == GlobalSetLock.lock(self()) end)
+
+      Process.sleep(wait_msec)
+    end
   end
 
   describe "unlock/1" do
