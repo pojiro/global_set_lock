@@ -1,6 +1,28 @@
 # GlobalSetLock
 
-**TODO: Add description**
+Let's confirm on nodes.
+
+```
+# on console A
+$ iex --sname node_one -S mix
+```
+
+```
+# on console B
+$ iex --sname node_two -S mix
+iex> Node.connect(:"node_one@your_machine_name")
+iex> GlobalSetLock.lock(self())
+true
+```
+
+```
+# on console A
+iex> GlobalSetLock.lock(self())
+false
+```
+
+How it will become after node_one iex exit?
+
 
 ## Installation
 
